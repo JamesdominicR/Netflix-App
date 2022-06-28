@@ -36,6 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.2
   video_player: ^2.4.2
+  http: ^0.13.4
+  json_annotation: ^4.5.0
+  json_serializable: ^6.2.0
+  intl: ^0.17.0
+  flutter_screenutil: ^5.5.3+1
+  bordered_text: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +53,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  build_runner: ^2.1.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

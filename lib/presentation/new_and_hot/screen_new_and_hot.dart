@@ -43,7 +43,7 @@ class ScreenNewAndHot extends StatelessWidget {
                 isScrollable: true,
                 indicator:
                     BoxDecoration(color: kwhiteColor, borderRadius: kradius30),
-                tabs: const[
+                tabs: const [
                   Tab(text: "🍟 Coming Soon"),
                   Tab(
                     text: "👀 Everyone's watching",
@@ -60,16 +60,15 @@ class ScreenNewAndHot extends StatelessWidget {
   }
 
   Widget _buildComingSoon() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (BuildContext context, index) => ComingSoonWidget(),
-    );
+    return const ComingSoonWidget();
   }
 
   _buildEveryonesWatching() {
     return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (BuildContext context, index) =>const WatchingWidget(),
+      itemCount: 20,
+      itemBuilder: (BuildContext context, index) => WatchingWidget(
+        index: index,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_app/presentation/fast_laughs/api_for_video/video_file.dart';
 import 'package:netflix_app/presentation/fast_laughs/widgets/VideoListItem.dart';
 
 class ScreenFastLaughs extends StatelessWidget {
@@ -10,8 +11,10 @@ class ScreenFastLaughs extends StatelessWidget {
       body: SafeArea(
         child: PageView(
           scrollDirection: Axis.vertical,
-          children: List.generate(10, (index) {
-            return VideoListItem(index: index);
+          children: List.generate(Videos.length, (index) {
+            return VideoListItem(index: index,
+            uri: Videos[index],
+            );
           }),
         ),
       ),

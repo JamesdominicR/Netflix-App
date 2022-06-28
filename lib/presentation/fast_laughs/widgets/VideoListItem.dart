@@ -1,17 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_app/core/colors/colors.dart';
+import 'package:netflix_app/presentation/fast_laughs/api_for_video/video_file.dart';
+import 'package:video_player/video_player.dart';
 
-class VideoListItem extends StatelessWidget {
+class VideoListItem extends StatefulWidget {
   final int index;
-  const VideoListItem({Key? key, required this.index}) : super(key: key);
+  final String uri;
+  const VideoListItem({Key? key, required this.index, required this.uri})
+      : super(key: key);
 
   @override
+  State<VideoListItem> createState() => _VideoListItemState();
+}
+
+class _VideoListItemState extends State<VideoListItem> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.uri);
+    _controller.initialize().then((_) {
+      _controller.play().then((value) => _controller.setLooping(true));
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          color: Colors.accents[index % Colors.accents.length],
-        ),
+            //color: Colors.accents[widget.index % Colors.accents.length],
+            height: double.infinity,
+            width: double.infinity,
+            child: _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(
+                    color: Colors.black,
+                    child: const Center(
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  )),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -36,21 +79,19 @@ class VideoListItem extends StatelessWidget {
                 //right side
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            "https://blog-fr.orson.io/wp-content/uploads/2017/06/jpeg-ou-png.jpg"),
+                        radius: 28,
+                        backgroundImage: NetworkImage(images[widget.index]),
                       ),
                     ),
-                    VideoActionsWidget(
+                   const VideoActionsWidget(
                         icon: Icons.emoji_emotions, title: 'LDL'),
-                    VideoActionsWidget(icon: Icons.add, title: 'My List'),
-                    VideoActionsWidget(icon: Icons.share, title: "share"),
-                    VideoActionsWidget(icon: Icons.play_arrow, title: 'Play'),
+                   const VideoActionsWidget(icon: Icons.add, title: 'My List'),
+                    const VideoActionsWidget(icon: Icons.share, title: "share"),
+                    const VideoActionsWidget(icon: Icons.play_arrow, title: 'Play'),
                   ],
                 )
               ],
@@ -80,7 +121,7 @@ class VideoActionsWidget extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: kwhiteColor,
               fontSize: 14,
             ),

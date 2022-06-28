@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:netflix_app/core/colors/colors.dart';
 
 class VideoWidget extends StatelessWidget {
+  final String url;
   const VideoWidget({
-    Key? key,
+    Key? key,required this.url
   }) : super(key: key);
 
   @override
@@ -14,7 +15,8 @@ class VideoWidget extends StatelessWidget {
           height: 200,
           width: double.infinity,
           child: Image.network(
-            "https://blog-fr.orson.io/wp-content/uploads/2017/06/jpeg-ou-png.jpg",
+            //"https://blog-fr.orson.io/wp-content/uploads/2017/06/jpeg-ou-png.jpg",
+            url,
             fit: BoxFit.cover,
           ),
         ),

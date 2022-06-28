@@ -19,8 +19,6 @@ class MainCard extends StatelessWidget {
             image: NetworkImage(
                 'https://blog-fr.orson.io/wp-content/uploads/2017/06/jpeg-ou-png.jpg'),
           ),
-        )
-        
-        );
+        ));
   }
 }

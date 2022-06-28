@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netflix_app/core/colors/colors.dart';
 import 'package:netflix_app/presentation/main_page/widgets/screen_main_page.dart';
 
@@ -12,20 +12,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
-        primarySwatch: Colors.blue,
-        backgroundColor: Colors.black,
-        scaffoldBackgroundColor: backgroundColor,
-        textTheme: TextTheme(
-          bodyText1: TextStyle(color: Colors.white),
-          bodyText2: TextStyle(color: Colors.white),
-        ),
-      ),
-      home: ScreenMainPage(),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(392.72727272727275, 738.1818181818181),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              appBarTheme:
+                  const AppBarTheme(backgroundColor: Colors.transparent),
+              primarySwatch: Colors.blue,
+              backgroundColor: Colors.black,
+              scaffoldBackgroundColor: backgroundColor,
+              textTheme: const TextTheme(
+                bodyText1: TextStyle(color: Colors.white),
+                bodyText2: TextStyle(color: Colors.white),
+              ),
+            ),
+            home: ScreenMainPage(),
+          );
+        });
   }
 }

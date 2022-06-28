@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:netflix_app/api/apivalues.dart';
 import 'package:netflix_app/core/colors/colors.dart';
 import 'package:netflix_app/core/colors/constants.dart';
 import 'package:netflix_app/presentation/search/widgets/title.dart';
@@ -18,26 +18,41 @@ class SearchIdleWidget extends StatelessWidget {
       children: [
         SearchTextTitle(
           title: 'Top Searches',
-         
         ),
         kheight,
         Expanded(
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) => TopSearchItem(),
-            separatorBuilder: (ctx, index) => kheight20,
-            itemCount: 25,
-          ),
-        ),
+            child: FutureBuilder(
+                future: getMovies(popularImages),
+                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                  return snapshot.hasData
+                      ? ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, index) => TopSearchItem(
+                            title: snapshot.data![index].title,
+                            image: imageId + snapshot.data![index].backdropPath,
+                          ),
+                          separatorBuilder: (ctx, index) => kheight20,
+                          itemCount: snapshot.data!.length,
+                        )
+                      : const Center(
+                          child: Text(
+                            'Loading......',
+                            style: TextStyle(
+                              color: kwhiteColor,
+                            ),
+                          ),
+                        );
+                })),
       ],
     );
   }
 }
 
-
-
 class TopSearchItem extends StatelessWidget {
-  const TopSearchItem({Key? key}) : super(key: key);
+  final String image;
+  final String title;
+  const TopSearchItem({Key? key, required this.image, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +64,7 @@ class TopSearchItem extends StatelessWidget {
           height: 65,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(imageUrl),
+              image: NetworkImage(image),
               fit: BoxFit.cover,
             ),
           ),
@@ -57,8 +72,8 @@ class TopSearchItem extends StatelessWidget {
         kwidth,
         Expanded(
           child: Text(
-            'Movie Name',
-            style: TextStyle(
+            title,
+            style: const TextStyle(
               color: kwhiteColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -72,7 +87,7 @@ class TopSearchItem extends StatelessWidget {
             backgroundColor: backgroundColor,
             radius: 23,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.play_arrow,
                 color: kwhiteColor,
               ),
